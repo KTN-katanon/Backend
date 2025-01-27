@@ -47,19 +47,4 @@ export class AppController {
   testBody(@Req() req, @Body() body, @Body('celsius') celsius: number) {
     return celsius;
   }
-
-  @Get('convert')
-  convert(@Query('celsius') celsius: string) {
-    return this.appService.convert(parseFloat(celsius));
-  }
-
-  @Post('convert')
-  convertByPost(@Body('celsius') celsius: number) {
-    return this.appService.convert(celsius);
-  }
-
-  @Get('convert/:celsius')
-  convertParam(@Param('celsius') celsius: string) {
-    return this.appService.convert(parseFloat(celsius));
-  }
 }
