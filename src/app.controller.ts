@@ -1,4 +1,5 @@
-import { Controller, Delete, Get } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+import { Body, Controller, Delete, Get, Param, Post, Query, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller('hello')
@@ -20,8 +21,22 @@ export class AppController {
     return '<hmtl><body><h1>Buu World</h1></body></hmtl>';
   }
 
-  @Get('convert')
-  convert() {
-    return 'convert';
+  @Get('test-query')
+  testQuery(
+    @Req() req,
+    @Query('celsius') celsius: number,
+    @Query('type') type: string,
+  ) {
+    return { celsius: celsius, type: type };
+  }
+
+  @Get('test-params/:celsius')
+  testParam(@Req() req, @Param('celsius') celsius: number) {
+    return { celsius };
+  }
+
+  @Post('test-body')
+  testBody(@Req() req, @Body() body, @Body('celsius') celsius: number) {
+    return celsius;
   }
 }
