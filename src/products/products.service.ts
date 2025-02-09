@@ -14,6 +14,7 @@ export class ProductsService {
       sweet: ['25', '50', '100'],
       type: ['H', 'C', 'F'],
       price: 50,
+      image: 'product1.jpg',
     },
   ];
   create(createProductDto: CreateProductDto) {
