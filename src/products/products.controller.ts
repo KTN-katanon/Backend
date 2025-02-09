@@ -17,7 +17,6 @@ export class ProductsController {
   //Create
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.productsService.create(createProductDto);
   }
   // Read All
