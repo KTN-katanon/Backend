@@ -10,9 +10,9 @@ export class ProductsService {
     {
       id: 1,
       name: 'Mocha',
-      size: ['S', 'M', 'L'],
-      sweet: ['25', '50', '100'],
-      type: ['H', 'C', 'F'],
+      size: 'S',
+      sweet: '25',
+      type: 'H',
       price: 50,
       image: 'product1.jpg',
     },
