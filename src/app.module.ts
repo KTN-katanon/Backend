@@ -6,13 +6,14 @@ import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { User } from './users/entities/user.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'mydb.sqlite',
-      entities: [],
+      entities: [User],
       synchronize: true,
     }),
     TemperatureModule,

@@ -1,56 +1,37 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UsersService {
-  lastId: number = 1;
-  users: User[] = [
-    {
-      id: 1,
-      login: 'admin',
-      password: '12345',
-      roles: ['admin'],
-      gender: 'male',
-      age: 50,
-    },
-  ];
-  create(createUserDto: CreateUserDto) {
-    this.lastId++;
-    const newUser = { ...createUserDto, id: this.lastId };
-    this.users.push(newUser);
-    return newUser;
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
+  create(createUserDto: CreateUserDto): Promise<User> {
+    return this.usersRepository.save(createUserDto);
   }
 
   findAll() {
-    return this.users;
+    return this.usersRepository.find();
   }
 
   findOne(id: number) {
-    const index = this.users.findIndex((user) => user.id === id);
-    if (index < 0) {
-      throw new NotFoundException();
-    }
-    return this.users[index];
+    return this.usersRepository.findOneBy({ id });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    const index = this.users.findIndex((user) => user.id === id);
-    if (index < 0) {
-      throw new NotFoundException();
-    }
-    this.users[index] = { ...this.users[index], ...updateUserDto };
-    return this.users[index];
+    return this.usersRepository.update(id, updateUserDto);
   }
 
-  remove(id: number) {
-    const index = this.users.findIndex((user) => user.id === id);
-    if (index < 0) {
-      throw new NotFoundException();
+  async remove(id: number) {
+    const deleteUser = await this.usersRepository.findOneBy({ id });
+    if (deleteUser) {
+      return this.usersRepository.remove(deleteUser);
     }
-    const delUser = this.users[index];
-    this.users.splice(index, 1);
-    return delUser;
+    throw new Error('User not found');
   }
 }
