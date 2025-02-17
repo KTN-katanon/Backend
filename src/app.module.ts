@@ -4,11 +4,26 @@ import { AppService } from './app.service';
 import { TemperatureModule } from './temperature.module';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 
 @Module({
-  imports: [TemperatureModule, UsersModule, ProductsModule, ProductsModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'mydb.sqlite',
+      entities: [],
+      synchronize: true,
+    }),
+    TemperatureModule,
+    UsersModule,
+    ProductsModule,
+    ProductsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
   exports: [],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSources: DataSource) {}
+}

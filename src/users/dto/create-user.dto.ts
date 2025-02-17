@@ -1,12 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import {
-  ArrayNotEmpty,
-  IsArray,
-  IsEmail,
-  IsNotEmpty,
-  Length,
-  Min,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, Length, Min } from 'class-validator';
 export class CreateUserDto {
   @IsEmail()
   @Length(4, 32)
@@ -15,9 +8,9 @@ export class CreateUserDto {
   @IsNotEmpty()
   @Length(10, 20)
   password: string;
-  @IsArray()
-  @ArrayNotEmpty()
-  roles: ('admin' | 'user')[];
+  // @IsArray()
+  // @ArrayNotEmpty()
+  // roles: ('admin' | 'user')[];
   @IsNotEmpty()
   gender: 'male' | 'female';
   @Min(1)
